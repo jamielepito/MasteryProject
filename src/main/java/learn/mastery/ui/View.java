@@ -1,7 +1,8 @@
 package learn.mastery.ui;
 
-import org.springframework.stereotype.Component;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class View {
@@ -13,8 +14,19 @@ public class View {
         for (MainMenuOption option : values) {
             System.out.printf("%s. %s%n", option.getValue(), option.getMessage());
         }
-        int menuIndex = readInt("Select [0-4]: ", 0, values.length);
+        String message = String.format("Select [0-%s]: ", values.length-1);
+        int menuIndex = readInt(message, 0, values.length-1);
         return values[menuIndex];
+    }
+
+    public String getHostEmail() {
+        return readRequiredString("Host Email Address: ");
+
+    }
+
+    public void printHeader(String message) {
+        System.out.printf("%n%s%n", message);
+        System.out.println("=".repeat(message.length()));
     }
 
     private int readInt(String prompt, int min, int max) {
@@ -47,5 +59,16 @@ public class View {
     private String readString(String prompt) {
         System.out.print(prompt);
         return console.nextLine();
+    }
+
+    private LocalDate readDate(String prompt) {
+        String input = readRequiredString(prompt);
+        while (true){
+            try{
+                return LocalDate.parse(input, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            } catch (DateTimeParseException ex){
+                System.out.println("Enter a date in format MM/dd/yyyy: ");
+            }
+        }
     }
 }

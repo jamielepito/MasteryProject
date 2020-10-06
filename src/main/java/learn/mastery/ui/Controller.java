@@ -23,6 +23,44 @@ public class Controller {
     }
 
     public void run(){
-        System.out.println("it ran");
+        MainMenuOption option;
+        view.printHeader("Main Menu");
+        do{
+            option = view.displayMainMenuAndSelect();
+            switch (option){
+                case EXIT:
+                    System.out.print("Goodbye!");
+                    break;
+                case VIEW_RESERVATION:
+                    viewReservation();
+                    break;
+                case MAKE_RESERVATION:
+                    makeReservation();
+                    break;
+                case EDIT_RESERVATION:
+                    editReservation();
+                    break;
+                case CANCEL_RESERVATION:
+                    cancelReservation();
+                    break;
+            }
+        }while (option != MainMenuOption.EXIT);
+    }
+
+    private void viewReservation(){
+        view.printHeader(MainMenuOption.VIEW_RESERVATION.getMessage());
+        String email = view.getHostEmail();
+    }
+
+    private void makeReservation(){
+        view.printHeader(MainMenuOption.MAKE_RESERVATION.getMessage());
+    }
+
+    private void editReservation(){
+        view.printHeader("Edit a Reservation");
+    }
+
+    private void cancelReservation(){
+        view.printHeader("Cancel a Reservation");
     }
 }

@@ -4,9 +4,10 @@ package learn.mastery.ui;
 public enum MainMenuOption {
 
     EXIT(0,"Exit"),
-    MAKE_RESERVATION(1, "Make a Reservation"),
-    EDIT_RESERVATION(2, "Edit a Reservation"),
-    CANCEL_RESERVATION(3,"Cancel a Reservation");
+    VIEW_RESERVATION(1,"View Reservations for Host"),
+    MAKE_RESERVATION(2, "Make a Reservation"),
+    EDIT_RESERVATION(3, "Edit a Reservation"),
+    CANCEL_RESERVATION(4,"Cancel a Reservation");
 
     private int value;
     private String message;
