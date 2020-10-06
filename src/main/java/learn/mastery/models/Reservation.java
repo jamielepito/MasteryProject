@@ -1,7 +1,10 @@
 package learn.mastery.models;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 
+@Component
 public class Reservation {
 //    Host GUID
 //    ID - guest? (int)

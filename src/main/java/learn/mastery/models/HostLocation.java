@@ -1,7 +1,10 @@
 package learn.mastery.models;
 
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 
+@Component
 public class HostLocation {
 
     // ID (GUID)

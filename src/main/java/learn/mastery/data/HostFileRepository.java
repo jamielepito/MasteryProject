@@ -1,6 +1,6 @@
 package learn.mastery.data;
 
-public class HostFileRepository {
+public class HostFileRepository implements HostRepository{
 
     //set/get id
     //set/get lastName
@@ -12,4 +12,8 @@ public class HostFileRepository {
     //set/get postal
     //set/get standardRate
     //set/get weekendRate
+
+    public HostFileRepository(String filePath){
+
+    }
 }

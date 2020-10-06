@@ -1,6 +1,6 @@
 package learn.mastery.data;
 
-public class ReservationFileRepository {
+public class ReservationFileRepository implements ReservationRepository {
 
     //Get Reservations for Host
     //Add Reservation
@@ -9,4 +9,8 @@ public class ReservationFileRepository {
     //set/get id
     //set/get startDate
     //set/get endDate
+
+    public ReservationFileRepository(String filePath){
+
+    }
 }

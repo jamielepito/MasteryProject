@@ -1,5 +1,8 @@
 package learn.mastery.models;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Guest {
 
     //Guest ID (int)
