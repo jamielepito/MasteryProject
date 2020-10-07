@@ -1,8 +1,11 @@
 package learn.mastery.ui;
 
+import learn.mastery.models.Reservation;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
 
 public class View {
@@ -17,6 +20,21 @@ public class View {
         String message = String.format("Select [0-%s]: ", values.length-1);
         int menuIndex = readInt(message, 0, values.length-1);
         return values[menuIndex];
+    }
+
+    public void viewReservations(List<Reservation> reservations){
+        if (reservations == null || reservations.isEmpty()) {
+            System.out.println("No reservations found.");
+            return;
+        }
+        for (Reservation res : reservations){
+            System.out.printf("%s: %s - %s Guest Id: %s Total: $%s%n",
+                    res.getHostId(),
+                    res.getStartDate(),
+                    res.getEndDate(),
+                    res.getGuestId(),
+                    res.getTotal());
+        }
     }
 
     public String getHostEmail() {

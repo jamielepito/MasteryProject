@@ -5,16 +5,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class Guest {
 
-    //Guest ID (int)
-    //First Name (String)
-    //Last Name (String)
-    //Email (String)
-    //State (String)
-
     private int guestId;
     private String firstName;
     private String lastName;
     private String email;
+    private String phoneNumber;
+    private String state;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public int getGuestId() {
         return guestId;
@@ -56,5 +60,4 @@ public class Guest {
         this.state = state;
     }
 
-    private String state;
 }

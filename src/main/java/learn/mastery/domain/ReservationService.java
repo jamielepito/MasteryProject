@@ -3,6 +3,9 @@ package learn.mastery.domain;
 import learn.mastery.data.GuestRepository;
 import learn.mastery.data.HostRepository;
 import learn.mastery.data.ReservationRepository;
+import learn.mastery.models.Reservation;
+
+import java.util.List;
 
 public class ReservationService {
 
@@ -16,6 +19,11 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
     }
 
+    public List<Reservation> findReservations(String hostEmail){
+
+        // TODO: get identifier from email: stream helper method
+        return reservationRepository.findReservationHost("2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c");
+    }
 
     //  Validate Create
     //Guest, host, and start and end dates are required.

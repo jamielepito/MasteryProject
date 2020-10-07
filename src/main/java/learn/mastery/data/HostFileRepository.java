@@ -13,7 +13,9 @@ public class HostFileRepository implements HostRepository{
     //set/get standardRate
     //set/get weekendRate
 
-    public HostFileRepository(String filePath){
+    private final String filePath;
 
+    public HostFileRepository(String filePath){
+        this.filePath = filePath;
     }
 }

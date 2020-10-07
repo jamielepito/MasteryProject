@@ -3,7 +3,10 @@ package learn.mastery.ui;
 import learn.mastery.domain.GuestService;
 import learn.mastery.domain.HostService;
 import learn.mastery.domain.ReservationService;
+import learn.mastery.models.Reservation;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class Controller {
@@ -50,6 +53,9 @@ public class Controller {
     private void viewReservation(){
         view.printHeader(MainMenuOption.VIEW_RESERVATION.getMessage());
         String email = view.getHostEmail();
+        List<Reservation>  reservations = reservationService.findReservations(email);
+        view.viewReservations(reservations);
+
     }
 
     private void makeReservation(){

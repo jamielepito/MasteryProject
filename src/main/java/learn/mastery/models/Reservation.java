@@ -2,6 +2,7 @@ package learn.mastery.models;
 
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Component
@@ -15,6 +16,15 @@ public class Reservation {
     private int guestId; // is this id for guest or reservation?
     private LocalDate startDate;
     private LocalDate endDate;
+    private BigDecimal total;
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
 
     public String getHostId() {
         return hostId;
