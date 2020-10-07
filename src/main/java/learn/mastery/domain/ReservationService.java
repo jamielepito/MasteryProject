@@ -21,9 +21,11 @@ public class ReservationService {
 
     public List<Reservation> findReservations(String hostEmail){
 
-        // TODO: get identifier from email: stream helper method
-        return reservationRepository.findReservationHost("2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c");
+        String hostIdentifier = hostRepository.getHostIdentifierByEmail(hostEmail);
+        return reservationRepository.findReservationHost(hostIdentifier);
     }
+
+
 
     //  Validate Create
     //Guest, host, and start and end dates are required.

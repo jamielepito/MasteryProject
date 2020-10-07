@@ -53,7 +53,7 @@ public class Controller {
     private void viewReservation(){
         view.printHeader(MainMenuOption.VIEW_RESERVATION.getMessage());
         String email = view.getHostEmail();
-        List<Reservation>  reservations = reservationService.findReservations(email);
+        List<Reservation> reservations = reservationService.findReservations(email);
         view.viewReservations(reservations);
 
     }

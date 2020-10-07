@@ -23,12 +23,14 @@ public class View {
     }
 
     public void viewReservations(List<Reservation> reservations){
+
+        // TODO: Take care of this in service
         if (reservations == null || reservations.isEmpty()) {
             System.out.println("No reservations found.");
             return;
         }
         for (Reservation res : reservations){
-            System.out.printf("%s: %s - %s Guest Id: %s Total: $%s%n",
+            System.out.printf("%s: %s - %s Guest Id: %s Total: $%.2f%n",
                     res.getHostId(),
                     res.getStartDate(),
                     res.getEndDate(),
