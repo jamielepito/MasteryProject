@@ -31,7 +31,7 @@ public class View {
         }
         for (Reservation res : reservations){
             System.out.printf("%s: %s - %s Guest Id: %s Total: $%.2f%n",
-                    res.getHostId(),
+                    res.getResId(),
                     res.getStartDate(),
                     res.getEndDate(),
                     res.getGuestId(),

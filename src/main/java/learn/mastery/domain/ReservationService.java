@@ -22,7 +22,7 @@ public class ReservationService {
     public List<Reservation> findReservations(String hostEmail){
 
         String hostIdentifier = hostRepository.getHostIdentifierByEmail(hostEmail);
-        return reservationRepository.findReservationHost(hostIdentifier);
+        return reservationRepository.findReservationByHost(hostIdentifier);
     }
 
 

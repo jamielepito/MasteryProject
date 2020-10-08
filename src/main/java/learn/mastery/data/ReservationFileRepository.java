@@ -1,6 +1,5 @@
 package learn.mastery.data;
 
-import learn.mastery.models.Guest;
 import learn.mastery.models.Reservation;
 
 import java.io.BufferedReader;
@@ -29,7 +28,7 @@ public class ReservationFileRepository implements ReservationRepository {
         this.directory = directory;
     }
 
-    public List<Reservation> findReservationHost(String hostIdentifier){
+    public List<Reservation> findReservationByHost(String hostIdentifier){
         ArrayList<Reservation> result = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath(hostIdentifier)))){
@@ -67,7 +66,7 @@ public class ReservationFileRepository implements ReservationRepository {
 
     private Reservation deserialize(String[] fields){
         Reservation reservation = new Reservation();
-        reservation.setHostId(fields[0]);
+        reservation.setResId(Integer.parseInt(fields[0]));
         reservation.setStartDate(LocalDate.parse(fields[1]));
         reservation.setEndDate(LocalDate.parse(fields[2]));
         reservation.setGuestId(Integer.parseInt(fields[3]));

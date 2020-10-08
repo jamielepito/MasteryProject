@@ -12,7 +12,17 @@ public class Reservation {
 //    Start Date (LocalDate)
 //    End Date (LocalDate)
 
-    private String hostId;
+    public String hostId;
+
+    public String getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(String hostId) {
+        this.hostId = hostId;
+    }
+
+    private int resId;
     private int guestId; // is this id for guest or reservation?
     private LocalDate startDate;
     private LocalDate endDate;
@@ -26,12 +36,12 @@ public class Reservation {
         this.total = total;
     }
 
-    public String getHostId() {
-        return hostId;
+    public int getResId() {
+        return resId;
     }
 
-    public void setHostId(String hostId) {
-        this.hostId = hostId;
+    public void setResId(int resId) {
+        this.resId = resId;
     }
 
     public int getGuestId() {

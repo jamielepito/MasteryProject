@@ -5,5 +5,5 @@ import learn.mastery.models.Reservation;
 import java.util.List;
 
 public interface ReservationRepository {
-    List<Reservation> findReservationHost(String hostEmail);
+    List<Reservation> findReservationByHost(String hostEmail);
 }
