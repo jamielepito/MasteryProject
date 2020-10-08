@@ -1,11 +1,9 @@
 package learn.mastery.data;
 
+import learn.mastery.domain.Result;
 import learn.mastery.models.Reservation;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -28,7 +26,7 @@ public class ReservationFileRepository implements ReservationRepository {
         this.directory = directory;
     }
 
-    public List<Reservation> findReservationByHost(String hostIdentifier){
+    public List<Reservation> findReservationByHost(String hostIdentifier) throws DataAccessException {
         ArrayList<Reservation> result = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath(hostIdentifier)))){
@@ -43,14 +41,17 @@ public class ReservationFileRepository implements ReservationRepository {
             }
         } catch (FileNotFoundException e) {
             // do nothing
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            throw new DataAccessException(ex.getMessage(), ex);
         }
         return result;
     }
 
-    public void makeReservation(String guestEmail, String hostEmail){
-        // Display Header:  "Host: Last Name"
+    public Reservation addReservation(Reservation reservation) throws DataAccessException {
+        List<Reservation> reservations = findReservationByHost(reservation.getHostId());
+        reservations.add(reservation);
+        writeAll(reservations, reservation.getHostId());
+        return reservation;
 
         //ID, Guest name, email
     }
@@ -63,6 +64,18 @@ public class ReservationFileRepository implements ReservationRepository {
     // Helper Methods
 
 
+    private void writeAll(List<Reservation> reservations, String hostId) throws DataAccessException {
+        try (PrintWriter writer = new PrintWriter(getFilePath(hostId))) {
+
+            writer.println("id,start_date,end_date,guest_id,total");
+
+            for (Reservation res : reservations) {
+                writer.println(serialize(res));
+            }
+        } catch (FileNotFoundException ex) {
+            throw new DataAccessException(ex);
+        }
+    }
 
     private Reservation deserialize(String[] fields){
         Reservation reservation = new Reservation();
@@ -73,6 +86,15 @@ public class ReservationFileRepository implements ReservationRepository {
         reservation.setTotal(BigDecimal.valueOf(Double.parseDouble(fields[4])));
 
         return reservation;
+    }
+
+    private String serialize(Reservation res){
+        return String.format("%s,%s,%s,%s,%s%n",
+                res.getResId(),
+                res.getStartDate(),
+                res.getEndDate(),
+                res.getGuestId(),
+                res.getTotal());
     }
 
     private String getFilePath(String hostIdentifier) {

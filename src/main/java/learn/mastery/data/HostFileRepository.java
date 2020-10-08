@@ -32,15 +32,15 @@ public class HostFileRepository implements HostRepository{
         this.filePath = filePath;
     }
 
-    public String getHostIdentifierByEmail(String email){
+    public HostLocation getHostByEmail(String email) throws DataAccessException {
         HostLocation host = findAll().stream().
                 filter(h -> h.getEmail().equalsIgnoreCase(email))
                 .findFirst()
                 .get();
-        return host.getHostId();
+        return host;
     }
 
-    public List<HostLocation> findAll(){
+    public List<HostLocation> findAll() throws DataAccessException {
         ArrayList<HostLocation> result = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))){
@@ -55,11 +55,12 @@ public class HostFileRepository implements HostRepository{
             }
         } catch (FileNotFoundException e) {
             // do nothing
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            throw new DataAccessException(ex.getMessage(), ex);
         }
         return result;
     }
+
 
     private HostLocation deserialize(String[] fields){
         HostLocation host = new HostLocation();

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface GuestRepository {
     List<Guest> findAll();
+    Guest findGuestByEmail(String email);
 
 
 }

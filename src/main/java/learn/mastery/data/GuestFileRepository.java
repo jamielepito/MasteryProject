@@ -22,6 +22,13 @@ public class GuestFileRepository implements GuestRepository {
         this.filePath = filePath;
     }
 
+    public Guest findGuestByEmail(String email){
+        Guest result = findAll().stream()
+                .filter(g ->g.getEmail().equalsIgnoreCase(email))
+                .findFirst().get();
+        return result;
+    }
+
     public List<Guest> findAll() {
         ArrayList<Guest> result = new ArrayList<>();
 

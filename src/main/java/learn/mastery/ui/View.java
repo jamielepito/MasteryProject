@@ -2,6 +2,7 @@ package learn.mastery.ui;
 
 import learn.mastery.models.Reservation;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -39,8 +40,8 @@ public class View {
         }
     }
 
-    public String getHostEmail() {
-        return readRequiredString("Host Email Address: ");
+    public String getEmail(String person) {
+        return readRequiredString(String.format("%s Email Address: ", person));
 
     }
 
@@ -81,14 +82,24 @@ public class View {
         return console.nextLine();
     }
 
-    private LocalDate readDate(String prompt) {
+    public LocalDate readDate(String prompt) {
         String input = readRequiredString(prompt);
         while (true){
             try{
-                return LocalDate.parse(input, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                return LocalDate.parse(input, DateTimeFormatter.ofPattern("M/d/yyyy"));
             } catch (DateTimeParseException ex){
                 System.out.println("Enter a date in format MM/dd/yyyy: ");
             }
         }
+    }
+
+    public void summary(LocalDate startDate, LocalDate endDate, BigDecimal total){
+        printHeader("Summary:");
+        System.out.printf("Start: %s%nEnd: %s%nTotal: $%.2f",
+                startDate,
+                endDate,
+                total);
+
+       // return readRequiredString("Is this okay? [y/n]");
     }
 }

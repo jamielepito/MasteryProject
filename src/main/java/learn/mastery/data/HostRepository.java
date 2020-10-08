@@ -1,5 +1,7 @@
 package learn.mastery.data;
 
+import learn.mastery.models.HostLocation;
+
 public interface HostRepository {
-    String getHostIdentifierByEmail(String email);
+    HostLocation getHostByEmail(String email) throws DataAccessException;
 }

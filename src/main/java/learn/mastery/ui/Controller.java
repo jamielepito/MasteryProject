@@ -1,11 +1,13 @@
 package learn.mastery.ui;
 
+import learn.mastery.data.DataAccessException;
 import learn.mastery.domain.GuestService;
 import learn.mastery.domain.HostService;
 import learn.mastery.domain.ReservationService;
 import learn.mastery.models.Reservation;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -25,7 +27,7 @@ public class Controller {
         this.view = view;
     }
 
-    public void run(){
+    public void run() throws DataAccessException {
         MainMenuOption option;
         view.printHeader("Main Menu");
         do{
@@ -50,16 +52,29 @@ public class Controller {
         }while (option != MainMenuOption.EXIT);
     }
 
-    private void viewReservation(){
+    private void viewReservation() throws DataAccessException {
         view.printHeader(MainMenuOption.VIEW_RESERVATION.getMessage());
-        String email = view.getHostEmail();
+        String email = view.getEmail("Host");
         List<Reservation> reservations = reservationService.findReservations(email);
         view.viewReservations(reservations);
 
     }
 
-    private void makeReservation(){
+    private void makeReservation() throws DataAccessException {
         view.printHeader(MainMenuOption.MAKE_RESERVATION.getMessage());
+        String guestEmail = view.getEmail("Guest");
+        String hostEmail = view.getEmail("Host");
+        view.printHeader(hostService.hostLocation(hostEmail));
+
+        List<Reservation> reservations = reservationService.findReservations(hostEmail);
+        view.viewReservations(reservations);
+
+        LocalDate startDate = view.readDate("Start Date: ");
+        LocalDate endDate = view.readDate("End Date: ");
+
+        // LocalDate startDate, LocalDate endDate, String guestEmail, String hostEmail
+        Reservation reservation = reservationService.makeReservation(startDate, endDate, guestEmail, hostEmail);
+        view.summary(startDate, endDate, reservation.getTotal());
     }
 
     private void editReservation(){
