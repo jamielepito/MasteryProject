@@ -4,6 +4,7 @@ import learn.mastery.data.DataAccessException;
 import learn.mastery.domain.GuestService;
 import learn.mastery.domain.HostService;
 import learn.mastery.domain.ReservationService;
+import learn.mastery.domain.Result;
 import learn.mastery.models.Reservation;
 import org.springframework.stereotype.Component;
 
@@ -76,7 +77,8 @@ public class Controller {
         // LocalDate startDate, LocalDate endDate, String guestEmail, String hostEmail
         Reservation reservation = reservationService.summarizeReservation(startDate, endDate, guestEmail, hostEmail);
         String correct = view.summary(startDate, endDate, reservation.getTotal());
-
+        Result result = reservationService.addReservation(reservation,correct);
+        view.displayResult(result);
     }
 
     private void editReservation(){

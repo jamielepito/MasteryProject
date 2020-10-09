@@ -1,5 +1,6 @@
 package learn.mastery.ui;
 
+import learn.mastery.domain.Result;
 import learn.mastery.models.Reservation;
 
 import java.math.BigDecimal;
@@ -83,14 +84,18 @@ public class View {
     }
 
     public LocalDate readDate(String prompt) {
-        String input = readRequiredString(prompt);
-        while (true){
+
+        Boolean isDate = false;
+        do{
+            String input = readRequiredString(prompt);
             try{
                 return LocalDate.parse(input, DateTimeFormatter.ofPattern("M/d/yyyy"));
-            } catch (DateTimeParseException ex){
+                //isDate = true;
+            } catch (DateTimeParseException ex) {
                 System.out.println("Enter a date in format MM/dd/yyyy: ");
             }
-        }
+        } while(!isDate);
+        return null;
     }
 
     public String summary(LocalDate startDate, LocalDate endDate, BigDecimal total){
@@ -101,5 +106,16 @@ public class View {
                 total);
 
        return readRequiredString("Is this okay? [y/n]: ");
+    }
+
+    public void displayResult(Result result) {
+        if (result.isSuccess()) {
+            printHeader("Success!");
+        } else {
+            printHeader("Error:");
+            for (String err : result.getErrorMessages()) {
+                System.out.println(err);
+            }
+        }
     }
 }

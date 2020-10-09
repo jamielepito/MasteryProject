@@ -10,10 +10,8 @@ import learn.mastery.models.Reservation;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-import static java.time.temporal.ChronoUnit.DAYS;
 
 public class ReservationService {
 
@@ -34,11 +32,13 @@ public class ReservationService {
         return result;
     }
 
-    public void addReservation(Reservation reservation, String correct) throws DataAccessException {
+    public Result<Reservation> addReservation(Reservation reservation, String correct) throws DataAccessException {
         Result<Reservation> result = validateInputs(reservation, correct);
         if(result.isSuccess()){
             reservationRepository.addReservation(reservation);
+            return result;
         }
+        return result;
     }
 
     public Reservation summarizeReservation(LocalDate startDate, LocalDate endDate, String guestEmail, String hostEmail) throws DataAccessException {
@@ -99,7 +99,7 @@ public class ReservationService {
             result.addErrorMessage("Guest must already exist in database.");
         }
         boolean hostExists = hostRepository.findAll().stream()
-                .allMatch(h -> h.getHostId().equalsIgnoreCase(reservation.getHostId()));
+                .anyMatch(h -> h.getHostId().equalsIgnoreCase(reservation.getHostId()));
         if (!hostExists){
             result.addErrorMessage("Host must already exist in databasse.");
         }

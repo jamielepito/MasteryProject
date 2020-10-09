@@ -13,6 +13,11 @@ public class Reservation {
 //    End Date (LocalDate)
 
     public String hostId;
+    private int resId;
+    private int guestId; // is this id for guest or reservation?
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private BigDecimal total;
 
     public String getHostId() {
         return hostId;
@@ -21,12 +26,6 @@ public class Reservation {
     public void setHostId(String hostId) {
         this.hostId = hostId;
     }
-
-    private int resId;
-    private int guestId; // is this id for guest or reservation?
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private BigDecimal total;
 
     public BigDecimal getTotal() {
         return total;
