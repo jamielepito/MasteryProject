@@ -93,13 +93,13 @@ public class View {
         }
     }
 
-    public void summary(LocalDate startDate, LocalDate endDate, BigDecimal total){
+    public String summary(LocalDate startDate, LocalDate endDate, BigDecimal total){
         printHeader("Summary:");
         System.out.printf("Start: %s%nEnd: %s%nTotal: $%.2f",
                 startDate,
                 endDate,
                 total);
 
-       // return readRequiredString("Is this okay? [y/n]");
+       return readRequiredString("Is this okay? [y/n]: ");
     }
 }

@@ -10,6 +10,7 @@ import learn.mastery.models.Reservation;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -33,7 +34,14 @@ public class ReservationService {
         return result;
     }
 
-    public Reservation makeReservation(LocalDate startDate, LocalDate endDate, String guestEmail, String hostEmail) throws DataAccessException {
+    public void addReservation(Reservation reservation, String correct) throws DataAccessException {
+        Result<Reservation> result = validateInputs(reservation, correct);
+        if(result.isSuccess()){
+            reservationRepository.addReservation(reservation);
+        }
+    }
+
+    public Reservation summarizeReservation(LocalDate startDate, LocalDate endDate, String guestEmail, String hostEmail) throws DataAccessException {
         Reservation reservation = new Reservation();
         reservation.setResId(getNextId(hostEmail));
         reservation.setStartDate(startDate);
@@ -58,6 +66,55 @@ public class ReservationService {
         return nextId;
     }
 
+    //  Validate Create
+    // TODO: split into different validation methods
+    private Result<Reservation> validateInputs(Reservation reservation, String correct) throws DataAccessException {
+        Result<Reservation> result = new Result<>(reservation);
+        List<Reservation> allCurrent = reservationRepository.findReservationByHost(reservation.getHostId());
+
+        if (!correct.equalsIgnoreCase("y")){
+            result.addErrorMessage("Summary was not okay");
+        }
+
+        //The reservation may never overlap existing reservation dates.
+        for (Reservation existing : allCurrent){
+            if (!(reservation.getEndDate().isBefore(existing.getStartDate()) || existing.getEndDate().isBefore(reservation.getStartDate()))){
+                result.addErrorMessage("The reservation may never overlap existing reservation dates.");
+            }
+        }
+        //The start date must come before the end date.
+        if(!(reservation.getStartDate().isBefore(reservation.getEndDate()))){
+            result.addErrorMessage("The start date must come before the end date.");
+        }
+
+        //The start date must be in the future.
+        if(!reservation.getStartDate().isAfter(LocalDate.now())){
+            result.addErrorMessage("The start date must be in the future.");
+        }
+
+        //The guest and host must already exist in the "database". Guests and hosts cannot be created.
+        boolean guestExists = guestRepository.findAll().stream()
+                .anyMatch(g -> g.getGuestId() == (reservation.getGuestId()));
+        if (!guestExists){
+            result.addErrorMessage("Guest must already exist in database.");
+        }
+        boolean hostExists = hostRepository.findAll().stream()
+                .allMatch(h -> h.getHostId().equalsIgnoreCase(reservation.getHostId()));
+        if (!hostExists){
+            result.addErrorMessage("Host must already exist in databasse.");
+        }
+
+        //Guest, host, and start and end dates are required.
+        if(reservation.getHostId() == null || reservation.getGuestId() == 0
+            || reservation.getStartDate() == null || reservation.getEndDate() == null){
+            result.addErrorMessage("Guest, host, and start and end dates are required.");
+        }
+
+        return result;
+
+    }
+
+
     private BigDecimal getTotal(HostLocation host, LocalDate startDate, LocalDate endDate) {
 
         // TODO: initialize better
@@ -78,13 +135,12 @@ public class ReservationService {
         return standardTotal.add(weekendTotal);
     }
 
+//    public Result addReservation (Reservation reservation){
+//
+//    }
 
-    //  Validate Create
-    //Guest, host, and start and end dates are required.
-    //The guest and host must already exist in the "database". Guests and hosts cannot be created.
-    //The start date must come before the end date.
-    //The reservation may never overlap existing reservation dates.
-    //The start date must be in the future.
+
+
 
     //  Validate Update
     //Guest, host, and start and end dates are required.

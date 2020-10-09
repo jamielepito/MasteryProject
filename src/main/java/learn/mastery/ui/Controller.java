@@ -60,6 +60,7 @@ public class Controller {
 
     }
 
+    // too much work happening here! TODO: refactor
     private void makeReservation() throws DataAccessException {
         view.printHeader(MainMenuOption.MAKE_RESERVATION.getMessage());
         String guestEmail = view.getEmail("Guest");
@@ -73,8 +74,9 @@ public class Controller {
         LocalDate endDate = view.readDate("End Date: ");
 
         // LocalDate startDate, LocalDate endDate, String guestEmail, String hostEmail
-        Reservation reservation = reservationService.makeReservation(startDate, endDate, guestEmail, hostEmail);
-        view.summary(startDate, endDate, reservation.getTotal());
+        Reservation reservation = reservationService.summarizeReservation(startDate, endDate, guestEmail, hostEmail);
+        String correct = view.summary(startDate, endDate, reservation.getTotal());
+
     }
 
     private void editReservation(){
