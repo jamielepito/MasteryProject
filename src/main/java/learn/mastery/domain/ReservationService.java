@@ -41,6 +41,12 @@ public class ReservationService {
         return result;
     }
 
+    public void editReservation(Reservation reservation, LocalDate startDate, LocalDate endDate) throws DataAccessException {
+
+        reservationRepository.editReservation(reservation, startDate, endDate);
+
+    }
+
     public Reservation summarizeReservation(LocalDate startDate, LocalDate endDate, String guestEmail, String hostEmail) throws DataAccessException {
         Reservation reservation = new Reservation();
         reservation.setResId(getNextId(hostEmail));

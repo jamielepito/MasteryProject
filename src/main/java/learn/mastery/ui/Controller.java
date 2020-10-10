@@ -81,8 +81,19 @@ public class Controller {
         view.displayResult(result);
     }
 
-    private void editReservation(){
-        view.printHeader("Edit a Reservation");
+    private void editReservation() throws DataAccessException {
+        view.printHeader(MainMenuOption.EDIT_RESERVATION.getMessage());
+        // TODO: put this in helper method? same as add res
+        String guestEmail = view.getEmail("Guest");
+        String hostEmail = view.getEmail("Host");
+        view.printHeader(hostService.hostLocation(hostEmail));
+        // TODO: only return with matching guest email too
+        List<Reservation> reservations = reservationService.findReservations(hostEmail);
+        Reservation reservation = view.readReservationChoice(reservations);
+        LocalDate startDate = view.readDate("Start Date: ");
+        LocalDate endDate = view.readDate("End Date: ");
+        reservationService.editReservation(reservation, startDate, endDate);
+
     }
 
     private void cancelReservation(){

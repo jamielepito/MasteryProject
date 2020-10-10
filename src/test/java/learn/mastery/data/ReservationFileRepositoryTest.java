@@ -30,11 +30,12 @@ class ReservationFileRepositoryTest {
     @Test
     void shouldFindReservationByHost() throws DataAccessException {
         List<Reservation> reservations = repository.findReservationByHost("2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c");
-        //assertEquals();
+        assertEquals(14, reservations.size());
     }
 
     @Test
-    void makeReservation() {
+    void shouldMakeReservation() {
+
     }
 
     @Test

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ReservationRepositoryDouble {
+public class ReservationRepositoryDouble implements ReservationRepository {
 
     private final ArrayList<Reservation> reservations = new ArrayList<>();
 
@@ -27,11 +27,19 @@ public class ReservationRepositoryDouble {
         reservations.add(reservation);
     }
 
-
     public List<Reservation> findReservationByHost(String hostId){
         return reservations.stream()
                 .filter(r -> r.getHostId().equalsIgnoreCase(hostId))
                 .collect(Collectors.toList());
+    }
+
+
+    public Reservation addReservation(Reservation reservation){
+        return reservation;
+    }
+
+    public boolean editReservation(Reservation reservation, LocalDate startDate, LocalDate endDate){
+        return true;
     }
 
 }

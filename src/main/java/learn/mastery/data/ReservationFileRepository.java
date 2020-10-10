@@ -16,9 +16,6 @@ public class ReservationFileRepository implements ReservationRepository {
     //Add Reservation
     //Edit Reservation
     //Cancel Reservation
-    //set/get id
-    //set/get startDate
-    //set/get endDate
 
     private final String directory;
 
@@ -56,8 +53,20 @@ public class ReservationFileRepository implements ReservationRepository {
         //ID, Guest name, email
     }
 
-    public void editReservation(String guestName, String hostName){
+    public boolean editReservation(Reservation reservation, LocalDate startDate, LocalDate endDate) throws DataAccessException {
         // Display Header:  "Host: Last Name"
+        List<Reservation> reservations = findReservationByHost(reservation.getHostId());
+        for (Reservation res : reservations){
+            if (res.getResId() == reservation.getResId()){
+                res.setStartDate(startDate);
+                res.setEndDate(endDate);
+
+                writeAll(reservations, reservation.getHostId());
+                return true;
+            }
+        }
+        return false;
+
 
     }
 
