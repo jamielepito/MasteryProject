@@ -43,6 +43,7 @@ public class ReservationService {
 
     // TODO: make host id less clunky
     public Result<Reservation> editReservation(Reservation reservation, LocalDate startDate, LocalDate endDate, String hostEmail) throws DataAccessException {
+        reservation.setHostId(hostRepository.getHostByEmail(hostEmail).getHostId());
         Result<Reservation> result = validateEditInputs(reservation);
 
         if (result.isSuccess()){
@@ -121,12 +122,12 @@ public class ReservationService {
 
         List<Reservation> allCurrent = reservationRepository.findReservationByHost(reservation.getHostId());
 
-        //The reservation may never overlap existing reservation dates.
-        for (Reservation existing : allCurrent) {
-            if (!(reservation.getEndDate().isBefore(existing.getStartDate()) || existing.getEndDate().isBefore(reservation.getStartDate()))) {
-                result.addErrorMessage("The reservation may never overlap existing reservation dates.");
-            }
-        }
+//        //The reservation may never overlap existing reservation dates.
+//        for (Reservation existing : allCurrent) {
+//            if (!(reservation.getEndDate().isBefore(existing.getStartDate()) && existing.getEndDate().isBefore(reservation.getStartDate()))) {
+//                result.addErrorMessage("The reservation may never overlap existing reservation dates.");
+//            }
+//        }
         //The start date must come before the end date.
         if (!(reservation.getStartDate().isBefore(reservation.getEndDate()))) {
             result.addErrorMessage("The start date must come before the end date.");

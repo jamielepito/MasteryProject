@@ -36,6 +36,9 @@ public class ReservationFileRepository implements ReservationRepository {
                     result.add(deserialize(fields));
                 }
             }
+            for (Reservation res : result){
+                res.setHostId(hostIdentifier);
+            }
         } catch (FileNotFoundException e) {
             // do nothing
         } catch (IOException ex) {
@@ -66,8 +69,18 @@ public class ReservationFileRepository implements ReservationRepository {
             }
         }
         return false;
+    }
 
-
+    public boolean deleteReservation(Reservation reservation) throws DataAccessException {
+        List<Reservation> reservations = findReservationByHost(reservation.getHostId());
+        for (Reservation res : reservations) {
+            if (res == reservation) {
+                reservations.remove(reservation);
+                writeAll(reservations, reservation.getHostId());
+                return true;
+            }
+        }
+        return false;
     }
 
     // Helper Methods
@@ -107,6 +120,7 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     private String getFilePath(String hostIdentifier) {
+
         return Paths.get(directory, hostIdentifier + ".csv").toString();
     }
 

@@ -1,5 +1,6 @@
 package learn.mastery.data;
 
+import learn.mastery.domain.Result;
 import learn.mastery.models.Reservation;
 
 import java.math.BigDecimal;
@@ -38,8 +39,14 @@ public class ReservationRepositoryDouble implements ReservationRepository {
         return reservation;
     }
 
+    //editReservation(reservation, startDate, endDate);
     public boolean editReservation(Reservation reservation, LocalDate startDate, LocalDate endDate){
+
+        reservation.setStartDate(startDate);
+        reservation.setEndDate(endDate);
+
         return true;
+
     }
 
 }

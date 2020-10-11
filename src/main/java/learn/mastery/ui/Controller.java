@@ -97,7 +97,14 @@ public class Controller {
 
     }
 
-    private void cancelReservation(){
-        view.printHeader("Cancel a Reservation");
+    private void cancelReservation() throws DataAccessException {
+        view.printHeader(MainMenuOption.CANCEL_RESERVATION.getMessage());
+        String hostEmail = view.getEmail("Host");
+        view.printHeader(hostService.hostLocation(hostEmail));
+        List<Reservation> reservations = reservationService.findReservations(hostEmail);
+        // put into one method in test
+        view.viewReservations(reservations);
+        view.readReservationChoice(reservations);
+
     }
 }
