@@ -34,7 +34,7 @@ public class ReservationService {
 
     public Result<Reservation> addReservation(Reservation reservation, String correct) throws DataAccessException {
         Result<Reservation> result = validateAddInputs(reservation, correct);
-        if(result.isSuccess()){
+        if (result.isSuccess()) {
             reservationRepository.addReservation(reservation);
             return result;
         }
@@ -42,15 +42,13 @@ public class ReservationService {
     }
 
     // TODO: make host id less clunky
-    public void editReservation(Reservation reservation, LocalDate startDate, LocalDate endDate, String hostEmail) throws DataAccessException {
+    public Result<Reservation> editReservation(Reservation reservation, LocalDate startDate, LocalDate endDate, String hostEmail) throws DataAccessException {
+        Result<Reservation> result = validateEditInputs(reservation);
 
-        reservation.setHostId(hostRepository.getHostByEmail(hostEmail).getHostId());
-        if (reservation.getHostId() == null){
-            System.out.println("no host id");
-        }else{
+        if (result.isSuccess()){
             reservationRepository.editReservation(reservation, startDate, endDate);
         }
-
+        return result;
     }
 
     public Reservation summarizeReservation(LocalDate startDate, LocalDate endDate, String guestEmail, String hostEmail) throws DataAccessException {
@@ -82,48 +80,79 @@ public class ReservationService {
     // TODO: split into different validation methods
     private Result<Reservation> validateAddInputs(Reservation reservation, String correct) throws DataAccessException {
         Result<Reservation> result = new Result<>(reservation);
-        List<Reservation> allCurrent = reservationRepository.findReservationByHost(reservation.getHostId());
 
-        if (!correct.equalsIgnoreCase("y")){
+        if (!correct.equalsIgnoreCase("y")) {
             result.addErrorMessage("Summary was not okay");
         }
 
-        //The reservation may never overlap existing reservation dates.
-        for (Reservation existing : allCurrent){
-            if (!(reservation.getEndDate().isBefore(existing.getStartDate()) || existing.getEndDate().isBefore(reservation.getStartDate()))){
-                result.addErrorMessage("The reservation may never overlap existing reservation dates.");
-            }
-        }
-        //The start date must come before the end date.
-        if(!(reservation.getStartDate().isBefore(reservation.getEndDate()))){
-            result.addErrorMessage("The start date must come before the end date.");
+        validateDates(reservation, result);
+        if (!result.isSuccess()) {
+            return result;
         }
 
-        //The start date must be in the future.
-        if(!reservation.getStartDate().isAfter(LocalDate.now())){
-            result.addErrorMessage("The start date must be in the future.");
-        }
-
-        //The guest and host must already exist in the "database". Guests and hosts cannot be created.
-        boolean guestExists = guestRepository.findAll().stream()
-                .anyMatch(g -> g.getGuestId() == (reservation.getGuestId()));
-        if (!guestExists){
-            result.addErrorMessage("Guest must already exist in database.");
-        }
-        boolean hostExists = hostRepository.findAll().stream()
-                .anyMatch(h -> h.getHostId().equalsIgnoreCase(reservation.getHostId()));
-        if (!hostExists){
-            result.addErrorMessage("Host must already exist in databasse.");
+        validateHostGuest(reservation, result);
+        if (!result.isSuccess()) {
+            return result;
         }
 
         //Guest, host, and start and end dates are required.
-        if(reservation.getHostId() == null || reservation.getGuestId() == 0
-            || reservation.getStartDate() == null || reservation.getEndDate() == null){
+        if (reservation.getHostId() == null || reservation.getGuestId() == 0
+                || reservation.getStartDate() == null || reservation.getEndDate() == null) {
             result.addErrorMessage("Guest, host, and start and end dates are required.");
         }
 
         return result;
 
+    }
+
+    private Result<Reservation> validateEditInputs(Reservation reservation) throws DataAccessException {
+        Result<Reservation> result = new Result<>(reservation);
+
+        validateDates(reservation, result);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        return result;
+    }
+
+
+    private Result<Reservation> validateDates(Reservation reservation, Result result) throws DataAccessException {
+
+        List<Reservation> allCurrent = reservationRepository.findReservationByHost(reservation.getHostId());
+
+        //The reservation may never overlap existing reservation dates.
+        for (Reservation existing : allCurrent) {
+            if (!(reservation.getEndDate().isBefore(existing.getStartDate()) || existing.getEndDate().isBefore(reservation.getStartDate()))) {
+                result.addErrorMessage("The reservation may never overlap existing reservation dates.");
+            }
+        }
+        //The start date must come before the end date.
+        if (!(reservation.getStartDate().isBefore(reservation.getEndDate()))) {
+            result.addErrorMessage("The start date must come before the end date.");
+        }
+
+        //The start date must be in the future.
+        if (!reservation.getStartDate().isAfter(LocalDate.now())) {
+            result.addErrorMessage("The start date must be in the future.");
+        }
+
+        return result;
+    }
+
+    private Result<Reservation> validateHostGuest(Reservation reservation, Result result) throws DataAccessException {
+        //The guest and host must already exist in the "database". Guests and hosts cannot be created.
+        boolean guestExists = guestRepository.findAll().stream()
+                .anyMatch(g -> g.getGuestId() == (reservation.getGuestId()));
+        if (!guestExists) {
+            result.addErrorMessage("Guest must already exist in database.");
+        }
+        boolean hostExists = hostRepository.findAll().stream()
+                .anyMatch(h -> h.getHostId().equalsIgnoreCase(reservation.getHostId()));
+        if (!hostExists) {
+            result.addErrorMessage("Host must already exist in databasse.");
+        }
+        return result;
     }
 
 
@@ -150,8 +179,6 @@ public class ReservationService {
 //    public Result addReservation (Reservation reservation){
 //
 //    }
-
-
 
 
     //  Validate Update

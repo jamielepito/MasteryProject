@@ -92,7 +92,7 @@ public class Controller {
         Reservation reservation = view.readReservationChoice(reservations);
         LocalDate startDate = view.readDate(reservation.getStartDate() + ": ");
         LocalDate endDate = view.readDate(reservation.getEndDate() + ": ");
-        reservationService.editReservation(reservation, startDate, endDate, hostEmail);
+        view.displayResult(reservationService.editReservation(reservation, startDate, endDate, hostEmail));
 
 
     }
