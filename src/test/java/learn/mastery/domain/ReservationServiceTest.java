@@ -54,4 +54,10 @@ class ReservationServiceTest {
     @Test
     void summarizeReservation() {
     }
+
+    @Test
+    void shouldNotDeletePastReservation(){
+
+    }
+
 }

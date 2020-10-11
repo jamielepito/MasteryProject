@@ -52,6 +52,15 @@ public class ReservationService {
         return result;
     }
 
+    public Result<Reservation> deleteReservation(Reservation reservation) throws DataAccessException {
+        Result<Reservation> result = validateDelete(reservation);
+
+        if (result.isSuccess()){
+            reservationRepository.deleteReservation(reservation);
+        }
+        return result;
+    }
+
     public Reservation summarizeReservation(LocalDate startDate, LocalDate endDate, String guestEmail, String hostEmail) throws DataAccessException {
         Reservation reservation = new Reservation();
         reservation.setResId(getNextId(hostEmail));
@@ -156,6 +165,13 @@ public class ReservationService {
         return result;
     }
 
+    private Result<Reservation> validateDelete(Reservation reservation) throws DataAccessException{
+        Result<Reservation> result = new Result<>(reservation);
+        if (reservation.getStartDate().isBefore(LocalDate.now())){
+            result.addErrorMessage("You cannot cancel a reservation that's in the past.");
+        }
+        return result;
+    }
 
     private BigDecimal getTotal(HostLocation host, LocalDate startDate, LocalDate endDate) {
 

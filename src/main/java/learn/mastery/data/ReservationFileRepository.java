@@ -74,8 +74,8 @@ public class ReservationFileRepository implements ReservationRepository {
     public boolean deleteReservation(Reservation reservation) throws DataAccessException {
         List<Reservation> reservations = findReservationByHost(reservation.getHostId());
         for (Reservation res : reservations) {
-            if (res == reservation) {
-                reservations.remove(reservation);
+            if (res.getResId() == reservation.getResId()) {
+                reservations.remove(res);
                 writeAll(reservations, reservation.getHostId());
                 return true;
             }

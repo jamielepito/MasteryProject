@@ -75,8 +75,5 @@ class ReservationFileRepositoryTest {
         assertEquals(13, reservations.size());
     }
 
-    @Test
-    void shouldNotDeleteMissingReseration(){
 
-    }
 }
