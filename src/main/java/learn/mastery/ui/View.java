@@ -123,7 +123,7 @@ public class View {
         viewReservations(reservations);
         String prompt = String.format("Choose a reservation number [1 - %s]:", reservations.size());
         int selection = readInt(prompt,1,reservations.size());
-        printHeader(String.format("Editing Reservation %s",selection));
+        printHeader(String.format("Reservation %s",selection));
 
         return reservations.get(selection - 1);
     }

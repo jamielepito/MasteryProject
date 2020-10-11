@@ -52,7 +52,7 @@ public class ReservationService {
         return result;
     }
 
-    public Result<Reservation> deleteReservation(Reservation reservation) throws DataAccessException {
+    public Result<Reservation> cancelReservation(Reservation reservation) throws DataAccessException {
         Result<Reservation> result = validateDelete(reservation);
 
         if (result.isSuccess()){

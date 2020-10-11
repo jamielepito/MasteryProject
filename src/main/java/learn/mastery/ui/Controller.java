@@ -104,7 +104,8 @@ public class Controller {
         List<Reservation> reservations = reservationService.findReservations(hostEmail);
         // put into one method in test
         view.viewReservations(reservations);
-        view.readReservationChoice(reservations);
+        Reservation reservation = view.readReservationChoice(reservations);
+        view.displayResult(reservationService.cancelReservation(reservation));
 
     }
 }
