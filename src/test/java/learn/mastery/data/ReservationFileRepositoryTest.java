@@ -5,10 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,6 +41,23 @@ class ReservationFileRepositoryTest {
     }
 
     @Test
-    void editReservation() {
+    void shouldEditReservation() throws DataAccessException{
+
+        Reservation reservation = new Reservation();
+
+        reservation.setResId(6);
+        reservation.setStartDate(LocalDate.of(2020,12,21));
+        reservation.setEndDate(LocalDate.of(2020,12,23));
+        reservation.setGuestId(802);
+        reservation.setTotal(BigDecimal.valueOf(540.0));
+        reservation.setHostId("2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c");
+
+        repository.editReservation(reservation,
+                LocalDate.of(2020,11,21), LocalDate.of(2020,11,23));
+
+        reservation = repository.findReservationByHost("2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c")
+                .stream().filter(res -> res.getResId() == 6).findFirst().get();
+
+        assertEquals(LocalDate.of(2020,11,21),reservation.getStartDate());
     }
 }

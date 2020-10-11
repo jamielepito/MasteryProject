@@ -90,9 +90,10 @@ public class Controller {
         // TODO: only return with matching guest email too
         List<Reservation> reservations = reservationService.findReservations(hostEmail);
         Reservation reservation = view.readReservationChoice(reservations);
-        LocalDate startDate = view.readDate("Start Date: ");
-        LocalDate endDate = view.readDate("End Date: ");
-        reservationService.editReservation(reservation, startDate, endDate);
+        LocalDate startDate = view.readDate(reservation.getStartDate() + ": ");
+        LocalDate endDate = view.readDate(reservation.getEndDate() + ": ");
+        reservationService.editReservation(reservation, startDate, endDate, hostEmail);
+
 
     }
 

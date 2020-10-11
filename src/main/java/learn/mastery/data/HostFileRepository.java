@@ -37,6 +37,7 @@ public class HostFileRepository implements HostRepository{
                 filter(h -> h.getEmail().equalsIgnoreCase(email))
                 .findFirst()
                 .get();
+
         return host;
     }
 

@@ -22,12 +22,13 @@ class ReservationServiceTest {
     }
 
     @Test
-    void addReservation() {
+    void shouldAddExistingReservation() {
     }
 
     @Test
-    void editReservation() {
+    void shouldEditValidReservation() {
     }
+
 
     @Test
     void summarizeReservation() {

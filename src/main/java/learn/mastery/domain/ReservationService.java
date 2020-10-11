@@ -33,7 +33,7 @@ public class ReservationService {
     }
 
     public Result<Reservation> addReservation(Reservation reservation, String correct) throws DataAccessException {
-        Result<Reservation> result = validateInputs(reservation, correct);
+        Result<Reservation> result = validateAddInputs(reservation, correct);
         if(result.isSuccess()){
             reservationRepository.addReservation(reservation);
             return result;
@@ -41,9 +41,15 @@ public class ReservationService {
         return result;
     }
 
-    public void editReservation(Reservation reservation, LocalDate startDate, LocalDate endDate) throws DataAccessException {
+    // TODO: make host id less clunky
+    public void editReservation(Reservation reservation, LocalDate startDate, LocalDate endDate, String hostEmail) throws DataAccessException {
 
-        reservationRepository.editReservation(reservation, startDate, endDate);
+        reservation.setHostId(hostRepository.getHostByEmail(hostEmail).getHostId());
+        if (reservation.getHostId() == null){
+            System.out.println("no host id");
+        }else{
+            reservationRepository.editReservation(reservation, startDate, endDate);
+        }
 
     }
 
@@ -74,7 +80,7 @@ public class ReservationService {
 
     //  Validate Create
     // TODO: split into different validation methods
-    private Result<Reservation> validateInputs(Reservation reservation, String correct) throws DataAccessException {
+    private Result<Reservation> validateAddInputs(Reservation reservation, String correct) throws DataAccessException {
         Result<Reservation> result = new Result<>(reservation);
         List<Reservation> allCurrent = reservationRepository.findReservationByHost(reservation.getHostId());
 
