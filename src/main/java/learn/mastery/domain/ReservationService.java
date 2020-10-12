@@ -32,13 +32,22 @@ public class ReservationService {
         return result;
     }
 
-    public Result<Reservation> addReservation(Reservation reservation, String correct) throws DataAccessException {
-        Result<Reservation> result = validateAddInputs(reservation, correct);
-        if (result.isSuccess()) {
-            reservationRepository.addReservation(reservation);
-            return result;
+    public Reservation makeReservation(Reservation reservation, String correct) throws DataAccessException {
+//        Result<Reservation> result = validateAddInputs(reservation, correct);
+//        if (result.isSuccess()) {
+            return reservationRepository.makeReservation(reservation);
+//            return result;
+//        }
+//        return result;
+    }
+
+    public boolean validateHostEmail(String email) throws DataAccessException {
+        for (HostLocation host : hostRepository.findAll()){
+            if(host.getEmail().equalsIgnoreCase(email)){
+                return true;
+            }
         }
-        return result;
+        return false;
     }
 
     // TODO: make host id less clunky

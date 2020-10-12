@@ -42,6 +42,7 @@ public class View {
     }
 
     public String getEmail(String person) {
+
         return readRequiredString(String.format("%s Email Address: ", person));
 
     }
@@ -121,8 +122,15 @@ public class View {
 
     public Reservation readReservationChoice(List<Reservation> reservations){
         viewReservations(reservations);
-        String prompt = String.format("Choose a reservation number [1 - %s]:", reservations.size());
-        int selection = readInt(prompt,1,reservations.size());
+        int selection = -1;
+         do {
+            String prompt = String.format("Choose a reservation number [1 - %s]:", reservations.size());
+            selection = readInt(prompt,1,reservations.size());
+            if (selection < 0 || selection > reservations.size()){
+                System.out.println("Your selection was out of range. Try another.");
+            }
+        } while (selection < 0 || selection > reservations.size());
+
         printHeader(String.format("Reservation %s",selection));
 
         return reservations.get(selection - 1);

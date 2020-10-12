@@ -36,9 +36,19 @@ class ReservationFileRepositoryTest {
     }
 
     @Test
-    void shouldMakeReservation() {
+    void shouldMakeReservation() throws DataAccessException {
+        // id,start_date,end_date,guest_id,total
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2022, 02, 02));
+        reservation.setEndDate(LocalDate.of(2022, 02, 04));
+        reservation.setGuestId(802);
+        reservation.setTotal(BigDecimal.valueOf(360));
+
+        Reservation addedReservation = repository.makeReservation(reservation);
+        assertEquals(addedReservation, reservation);
 
     }
+
 
     @Test
     void shouldEditReservation() throws DataAccessException{
@@ -62,7 +72,17 @@ class ReservationFileRepositoryTest {
     }
 
     @Test
-    void shouldDeleteExistingReservation() throws DataAccessException {
+    void shouldNotEditReservationWithoutExistingHost() throws DataAccessException{
+
+    }
+
+    @Test
+    void shouldEditMakeReservationWithoutExistingGuest() throws DataAccessException{
+
+    }
+
+    @Test
+    void shouldCancelExistingReservation() throws DataAccessException {
         Reservation reservation = repository.findReservationByHost("2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c")
                 .stream().filter(res -> res.getResId() == 14).findFirst().get();
 
@@ -73,6 +93,11 @@ class ReservationFileRepositoryTest {
         assertTrue(deleted);
 
         assertEquals(13, reservations.size());
+    }
+
+    @Test
+    void shouldNotCancelReservationInPast() throws DataAccessException{
+
     }
 
 

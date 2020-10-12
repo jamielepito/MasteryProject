@@ -35,7 +35,7 @@ public class ReservationRepositoryDouble implements ReservationRepository {
     }
 
 
-    public Reservation addReservation(Reservation reservation){
+    public Reservation makeReservation(Reservation reservation){
         return reservation;
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 public interface ReservationRepository {
     List<Reservation> findReservationByHost(String hostEmail) throws DataAccessException;
 
-    Reservation addReservation(Reservation reservation) throws DataAccessException;
+    Reservation makeReservation(Reservation reservation) throws DataAccessException;
 
     boolean editReservation(Reservation reservation, LocalDate startDate, LocalDate endDate) throws DataAccessException;
 

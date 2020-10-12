@@ -64,21 +64,30 @@ public class Controller {
     // too much work happening here! TODO: refactor
     private void makeReservation() throws DataAccessException {
         view.printHeader(MainMenuOption.MAKE_RESERVATION.getMessage());
-        String guestEmail = view.getEmail("Guest");
-        String hostEmail = view.getEmail("Host");
-        view.printHeader(hostService.hostLocation(hostEmail));
 
+        String guestEmail = null;
+        boolean guestExist = false;
+        do{
+            guestEmail = view.getEmail("Guest");
+            guestExist = reservationService.validateHostEmail(guestEmail);
+        }while(!guestExist);
+
+
+        String hostEmail = null;
+        boolean hostExist = false;
+        do{
+            hostEmail = view.getEmail("Host");
+            hostExist = reservationService.validateHostEmail(hostEmail);
+        }while(!hostExist);
+
+        view.printHeader(hostService.hostLocation(hostEmail));
         List<Reservation> reservations = reservationService.findReservations(hostEmail);
         view.viewReservations(reservations);
-
         LocalDate startDate = view.readDate("Start Date: ");
         LocalDate endDate = view.readDate("End Date: ");
-
-        // LocalDate startDate, LocalDate endDate, String guestEmail, String hostEmail
         Reservation reservation = reservationService.summarizeReservation(startDate, endDate, guestEmail, hostEmail);
         String correct = view.summary(startDate, endDate, reservation.getTotal());
-        Result result = reservationService.addReservation(reservation,correct);
-        view.displayResult(result);
+        reservationService.makeReservation(reservation,correct);
     }
 
     private void editReservation() throws DataAccessException {
@@ -87,6 +96,8 @@ public class Controller {
         String guestEmail = view.getEmail("Guest");
         String hostEmail = view.getEmail("Host");
         view.printHeader(hostService.hostLocation(hostEmail));
+
+
         // TODO: only return with matching guest email too
         List<Reservation> reservations = reservationService.findReservations(hostEmail);
         Reservation reservation = view.readReservationChoice(reservations);

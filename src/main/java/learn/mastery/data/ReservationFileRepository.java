@@ -47,7 +47,7 @@ public class ReservationFileRepository implements ReservationRepository {
         return result;
     }
 
-    public Reservation addReservation(Reservation reservation) throws DataAccessException {
+    public Reservation makeReservation(Reservation reservation) throws DataAccessException {
         List<Reservation> reservations = findReservationByHost(reservation.getHostId());
         reservations.add(reservation);
         writeAll(reservations, reservation.getHostId());
