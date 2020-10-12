@@ -4,6 +4,7 @@ import learn.mastery.data.DataAccessException;
 import learn.mastery.data.GuestRepository;
 import learn.mastery.data.HostRepository;
 import learn.mastery.data.ReservationRepository;
+import learn.mastery.models.Guest;
 import learn.mastery.models.HostLocation;
 import learn.mastery.models.Reservation;
 
@@ -44,6 +45,15 @@ public class ReservationService {
     public boolean validateHostEmail(String email) throws DataAccessException {
         for (HostLocation host : hostRepository.findAll()){
             if(host.getEmail().equalsIgnoreCase(email)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean validateGuestEmail(String email) throws DataAccessException {
+        for (Guest guest : guestRepository.findAll()){
+            if(guest.getEmail().equalsIgnoreCase(email)){
                 return true;
             }
         }

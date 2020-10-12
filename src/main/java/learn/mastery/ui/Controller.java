@@ -64,25 +64,12 @@ public class Controller {
     // too much work happening here! TODO: refactor
     private void makeReservation() throws DataAccessException {
         view.printHeader(MainMenuOption.MAKE_RESERVATION.getMessage());
-
-        String guestEmail = null;
-        boolean guestExist = false;
-        do{
-            guestEmail = view.getEmail("Guest");
-            guestExist = reservationService.validateHostEmail(guestEmail);
-        }while(!guestExist);
-
-
-        String hostEmail = null;
-        boolean hostExist = false;
-        do{
-            hostEmail = view.getEmail("Host");
-            hostExist = reservationService.validateHostEmail(hostEmail);
-        }while(!hostExist);
-
+        String guestEmail = getGuestEmail();
+        String hostEmail = getHostEmail();
         view.printHeader(hostService.hostLocation(hostEmail));
         List<Reservation> reservations = reservationService.findReservations(hostEmail);
         view.viewReservations(reservations);
+
         LocalDate startDate = view.readDate("Start Date: ");
         LocalDate endDate = view.readDate("End Date: ");
         Reservation reservation = reservationService.summarizeReservation(startDate, endDate, guestEmail, hostEmail);
@@ -93,16 +80,15 @@ public class Controller {
     private void editReservation() throws DataAccessException {
         view.printHeader(MainMenuOption.EDIT_RESERVATION.getMessage());
         // TODO: put this in helper method? same as add res
-        String guestEmail = view.getEmail("Guest");
-        String hostEmail = view.getEmail("Host");
+        //String guestEmail = view.getEmail("Guest");
+        String hostEmail = getHostEmail();
         view.printHeader(hostService.hostLocation(hostEmail));
 
 
-        // TODO: only return with matching guest email too
         List<Reservation> reservations = reservationService.findReservations(hostEmail);
         Reservation reservation = view.readReservationChoice(reservations);
-        LocalDate startDate = view.readDate(reservation.getStartDate() + ": ");
-        LocalDate endDate = view.readDate(reservation.getEndDate() + ": ");
+        LocalDate startDate = view.readDate("Change from " + reservation.getStartDate() + ": ");
+        LocalDate endDate = view.readDate("Change from " + reservation.getEndDate() + ": ");
         view.displayResult(reservationService.editReservation(reservation, startDate, endDate, hostEmail));
 
 
@@ -110,7 +96,7 @@ public class Controller {
 
     private void cancelReservation() throws DataAccessException {
         view.printHeader(MainMenuOption.CANCEL_RESERVATION.getMessage());
-        String hostEmail = view.getEmail("Host");
+        String hostEmail = getHostEmail();
         view.printHeader(hostService.hostLocation(hostEmail));
         List<Reservation> reservations = reservationService.findReservations(hostEmail);
         // put into one method in test
@@ -118,5 +104,26 @@ public class Controller {
         Reservation reservation = view.readReservationChoice(reservations);
         view.displayResult(reservationService.cancelReservation(reservation));
 
+    }
+
+    private String getGuestEmail() throws DataAccessException {
+        String guestEmail = null;
+        boolean guestExist = false;
+        do{
+            guestEmail = view.getEmail("Guest");
+            guestExist = reservationService.validateGuestEmail(guestEmail);
+        }while(!guestExist);
+        return guestEmail;
+    }
+
+    private String getHostEmail() throws DataAccessException{
+        String hostEmail = null;
+        boolean hostExist = false;
+        do{
+            hostEmail = view.getEmail("Host");
+            hostExist = reservationService.validateHostEmail(hostEmail);
+        }while(!hostExist);
+
+        return hostEmail;
     }
 }

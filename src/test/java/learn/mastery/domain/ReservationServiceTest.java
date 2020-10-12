@@ -75,15 +75,6 @@ class ReservationServiceTest {
         assertEquals(1, reservations.size());
     }
 
-    @Test
-    void shouldNotMakeReservationWithoutExistingHost() throws DataAccessException{
-
-    }
-
-    @Test
-    void shouldNotMakeReservationWithoutExistingGuest() throws DataAccessException{
-
-    }
 
     // Reservation reservation, LocalDate startDate, LocalDate endDate, String hostEmail
     @Test
