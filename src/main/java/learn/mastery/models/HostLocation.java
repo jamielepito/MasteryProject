@@ -7,16 +7,6 @@ import java.math.BigDecimal;
 @Component
 public class HostLocation {
 
-    // ID (GUID)
-    //Last Name (String)
-    //Email (String)
-    //Phone (String)
-    //Address (String)
-    //City (String)
-    //State (String)
-    //Postal Code (int)
-    //Standard Rate (BigDecimal)
-    //Weekend Rate (BigDecimal)
 
     private String hostId;
     private String lastName;

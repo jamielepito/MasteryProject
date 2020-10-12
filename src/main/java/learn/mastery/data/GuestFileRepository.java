@@ -11,10 +11,6 @@ import java.util.List;
 
 public class GuestFileRepository implements GuestRepository {
 
-    //set/get guestId
-    //set/get firstName
-    //set/get email
-    //set/get state
     private final String filePath;
     private final String delimiter = ",";
 

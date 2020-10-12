@@ -25,8 +25,6 @@ public class View {
     }
 
     public void viewReservations(List<Reservation> reservations){
-
-        // TODO: Take care of this in service
         if (reservations == null || reservations.isEmpty()) {
             System.out.println("No reservations found.");
             return;
@@ -78,7 +76,6 @@ public class View {
         return result;
     }
 
-    // read user input from console after printing prompt
     private String readString(String prompt) {
         System.out.print(prompt);
         return console.nextLine();

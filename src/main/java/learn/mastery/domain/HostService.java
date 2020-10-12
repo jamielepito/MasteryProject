@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class HostService {
-    //Implement rules for host
 
     private final HostRepository repository;
 

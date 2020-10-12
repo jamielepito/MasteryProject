@@ -46,7 +46,6 @@ class ReservationFileRepositoryTest {
 
         Reservation addedReservation = repository.makeReservation(reservation);
         assertEquals(addedReservation, reservation);
-
     }
 
 

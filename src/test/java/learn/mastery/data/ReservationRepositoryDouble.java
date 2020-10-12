@@ -3,6 +3,8 @@ package learn.mastery.data;
 import learn.mastery.domain.Result;
 import learn.mastery.models.Reservation;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,7 +19,6 @@ public class ReservationRepositoryDouble implements ReservationRepository {
 
         Reservation reservation = new Reservation();
 
-        // 1,2020-10-13,2020-10-17,643,720
         reservation.setResId(1);
         reservation.setStartDate(LocalDate.of(2020,10,13));
         reservation.setEndDate(LocalDate.of(2020,10,17));
@@ -36,6 +37,8 @@ public class ReservationRepositoryDouble implements ReservationRepository {
 
 
     public Reservation makeReservation(Reservation reservation){
+        reservations.add(reservation);
+
         return reservation;
     }
 

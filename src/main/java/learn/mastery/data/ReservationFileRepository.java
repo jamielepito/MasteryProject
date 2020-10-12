@@ -12,11 +12,6 @@ import java.util.List;
 
 public class ReservationFileRepository implements ReservationRepository {
 
-    //Get Reservations for Host
-    //Add Reservation
-    //Edit Reservation
-    //Cancel Reservation
-
     private final String directory;
 
     public ReservationFileRepository(String directory){
@@ -124,8 +119,4 @@ public class ReservationFileRepository implements ReservationRepository {
         return Paths.get(directory, hostIdentifier + ".csv").toString();
     }
 
-
-    private void findByHostandGuestEmail(String guestName, String guestEmail){
-
-    }
 }

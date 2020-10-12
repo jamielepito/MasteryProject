@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GuestService {
-    //implement rules for guest
 
     private final GuestRepository repository;
 

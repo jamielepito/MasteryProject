@@ -14,8 +14,6 @@ import java.util.List;
 @Component
 public class Controller {
 
-    // takes in all services and view
-
     private final GuestService guestService;
     private final HostService hostService;
     private final ReservationService reservationService;
@@ -79,8 +77,6 @@ public class Controller {
 
     private void editReservation() throws DataAccessException {
         view.printHeader(MainMenuOption.EDIT_RESERVATION.getMessage());
-        // TODO: put this in helper method? same as add res
-        //String guestEmail = view.getEmail("Guest");
         String hostEmail = getHostEmail();
         view.printHeader(hostService.hostLocation(hostEmail));
 
@@ -99,7 +95,6 @@ public class Controller {
         String hostEmail = getHostEmail();
         view.printHeader(hostService.hostLocation(hostEmail));
         List<Reservation> reservations = reservationService.findReservations(hostEmail);
-        // put into one method in test
         view.viewReservations(reservations);
         Reservation reservation = view.readReservationChoice(reservations);
         view.displayResult(reservationService.cancelReservation(reservation));

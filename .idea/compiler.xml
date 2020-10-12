@@ -9,5 +9,8 @@
         <module name="MasteryProject" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="MasteryProject" target="1.11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
