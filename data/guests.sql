@@ -14,7 +14,7 @@ create table guest (
 );
 
 insert into guest (guest_id,first_name,last_name,email,phone,state) 
-values (
+values 
 (1, 'Sullivan', 'Lomas' 'slomas0@mediafire.com' '(702) 7768761' 'NV'),
 (2, 'Olympie', 'Gecks' 'ogecks1@dagondesign.com' '(202) 2528316' 'DC'),
 (3, 'Tremain', 'Carncross' 'tcarncross2@japanpost.jp' '(313) 2245034' 'MI'),
@@ -1014,5 +1014,4 @@ values (
 (997, 'Fanechka', 'Neads' 'fneadsro@biglobe.ne.jp' '(315) 6246643' 'NY'),
 (998, 'Aliza', 'Ingley' 'aingleyrp@reference.com' '(402) 3321902' 'NE'),
 (999, 'Jere', 'Sorensen' 'jsorensenrq@mtv.com' '(360) 8682028' 'WA'),
-(1000, 'Carrissa', 'Bracher' 'cbracherrr@ihg.com' '(414) 1209230' 'WI')
-);
+(1000, 'Carrissa', 'Bracher' 'cbracherrr@ihg.com' '(414) 1209230' 'WI');
