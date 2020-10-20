@@ -107,6 +107,7 @@
         private Result<Reservation> validateCreateInputs(Reservation reservation, String correct) throws DataAccessException {
             Result<Reservation> result = new Result<>(reservation);
 
+            //put this in UI
             if (!correct.equalsIgnoreCase("y")) {
                 result.addErrorMessage("Summary was not okay");
             }
@@ -141,7 +142,7 @@
         private Result<Reservation> validateDates(Reservation reservation, Result result) throws DataAccessException {
 
             List<Reservation> allCurrent = reservationRepository.findReservationByHost(reservation.getHostId());
-
+            allCurrent.remove(reservation);
             for (Reservation existing : allCurrent) {
                 if (!(reservation.getEndDate().isBefore(existing.getStartDate()) || existing.getEndDate().isBefore(reservation.getStartDate()))) {
                     result.addErrorMessage("The reservation may never overlap existing reservation dates.");

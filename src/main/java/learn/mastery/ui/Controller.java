@@ -59,7 +59,6 @@ public class Controller {
 
     }
 
-    // too much work happening here! TODO: refactor
     private void makeReservation() throws DataAccessException {
         view.printHeader(MainMenuOption.MAKE_RESERVATION.getMessage());
         String guestEmail = getGuestEmail();
